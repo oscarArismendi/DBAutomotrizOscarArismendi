@@ -297,8 +297,9 @@ CREATE TABLE factura_detalle (
 -- Creacion de tabla kilometraje
 
 CREATE TABLE kilometraje_vehiculo (
+    id INT AUTO_INCREMENT NOT NULL,
     vehiculo_id INT,
     kilometraje INT,
-    CONSTRAINT PK_KilometrajeVehiculo_Id PRIMARY KEY (vehiculo_id),
+    CONSTRAINT PK_KilometrajeVehiculo_Id PRIMARY KEY (id),
     CONSTRAINT FK_KilometrajeVehiculo_Id FOREIGN KEY (vehiculo_id) REFERENCES vehiculo(id)
 );
