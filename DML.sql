@@ -73,15 +73,15 @@ INSERT INTO telefono_empleado (empleado_id, tipo_id, numero) VALUES
 (5, 5, '456456456');
 
 -- Inserciones para la tabla reparacion
-INSERT INTO reparacion (fecha, empleado_id, vehiculo_id, costo_total, descripcion) VALUES
-('2023-01-10', 1, 1, 150.00, 'Cambio de aceite y revisión general'),
-('2023-02-15', 2, 2, 90.00, 'Alineación y balanceo'),
-('2023-03-20', 3, 3, 130.00, 'Revisión general y cambio de frenos'),
-('2023-04-25', 4, 4, 70.00, 'Cambio de aceite'),
-('2023-05-30', 5, 5, 200.00, 'Revisión completa y alineación'),
-('2023-03-10', 1, 1, 90.00, 'Cambio de aceite y alineación'),
-('2024-01-15', 1, 1, 120.00, 'Cambio de aceite y balanceo de ruedas'),
-('2024-09-01', 2, 2, 180.00, 'Alineación y revisión de frenos');
+INSERT INTO reparacion (fecha, empleado_id, vehiculo_id, costo_total, descripcion,duracion_horas) VALUES
+('2023-01-10', 1, 1, 150.00, 'Cambio de aceite y revisión general',8),
+('2023-02-15', 2, 2, 90.00, 'Alineación y balanceo',4),
+('2023-03-20', 3, 3, 130.00, 'Revisión general y cambio de frenos',7),
+('2023-04-25', 4, 4, 70.00, 'Cambio de aceite',3),
+('2023-05-30', 5, 5, 200.00, 'Revisión completa y alineación',9),
+('2023-03-10', 1, 1, 90.00, 'Cambio de aceite y alineación',5),
+('2024-01-15', 1, 1, 120.00, 'Cambio de aceite y balanceo de ruedas',5),
+('2024-09-01', 2, 2, 180.00, 'Alineación y revisión de frenos',4);
 
 -- Inserciones para la tabla reparacion_servicio
 INSERT INTO reparacion_servicio (reparacion_id, servicio_id) VALUES
@@ -144,13 +144,13 @@ INSERT INTO precio (proveedor_id, pieza_id, precio_venta, precio_proveedor) VALU
 
 -- Inserciones para la tabla reparacion_piezas
 INSERT INTO reparacion_piezas (reparacion_id, pieza_id, cantidad) VALUES
-(1, 1, 31),
+(1, 1, 1),
 (2, 2, 2),
 (3, 3, 4),
 (4, 4, 1),
 (5, 5, 2),
-(6, 1, 33),
-(7, 1, 35),
+(6, 1, 3),
+(7, 1, 5),
 (8, 2, 7);
 
 -- Inserciones para la tabla cita
@@ -183,12 +183,12 @@ INSERT INTO cita_servicio (cita_id, servicio_id) VALUES
 INSERT INTO ubicacion (nombre) VALUES ('Depósito Central'), ('Almacén Norte'), ('Almacén Sur'), ('Almacén Este'), ('Almacén Oeste');
 
 -- Inserciones para la tabla inventario
-INSERT INTO inventario (cantidad, ubicacion_id) VALUES
-(100, 1),
-(150, 2),
-(200, 3),
-(250, 4),
-(300, 5);
+INSERT INTO inventario (cantidad, ubicacion_id,stock_inicial) VALUES
+(100, 1,1100),
+(150, 2,300),
+(200, 3,400),
+(250, 4,500),
+(300, 5,600);
 
 -- Inserciones para la tabla pieza_inventario
 INSERT INTO pieza_inventario (inventario_id, pieza_id) VALUES

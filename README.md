@@ -28,9 +28,6 @@
    3 rows in set (0.00 sec)
    -- se pasa por la tabla de reparaciones y solo se seleccionan las que tengan la id  igual al vehiculo que se busca
    ```
-
-   
-
 2. Calcular el costo total de todas las reparaciones realizadas por un empleado
    específico en un período de tiempo
 
@@ -52,8 +49,6 @@ GROUP BY em.id;
 1 row in set (0.01 sec)
 -- Se buscan las reparaciones del empleado con la id 5 y que hayan sido en 2023 para sumarse al final
 ```
-
-
 
 3. Listar todos los clientes y los vehículos que poseen
 
@@ -87,8 +82,6 @@ ORDER BY
 -- Se hace la union de tablas del cliente con sus respectivos vehiculos y se devuelven los datos ordenandolos por la id del cliente
 ```
 
-
-
 4. Obtener la cantidad de piezas en inventario para cada pieza
 
 ```mysql
@@ -114,8 +107,6 @@ INNER JOIN
 -- Uso la tabla intermedi pieza_inventario para relacionar pieza con inventario y saber su cantidad y nombre
 ```
 
-
-
 5. Obtener las citas programadas para un día específico
 
 ```mysql
@@ -138,8 +129,6 @@ WHERE
 1 row in set (0.00 sec)
 -- Uso fecha_hora de la tabla date para el dia dandole un formato en el cual no tiene encuenta la hora, ya que en este caso solo nos interesa el dia
 ```
-
-
 
 6. Generar una factura para un cliente específico en una fecha determinada
 
@@ -166,8 +155,6 @@ WHERE
 --  Busca la  factura del dia 2024-01-15 y con el cliente de id 1
 ```
 
-
-
 7. Listar todas las órdenes de compra y sus detalles
 
 ```mysql
@@ -192,8 +179,6 @@ INNER JOIN
 5 rows in set (0.00 sec)
 -- Une orden_compra  con orden_detalle para mostrar  la orden de compra con cada uno de suss detalles
 ```
-
-
 
 8. Obtener el costo total de piezas utilizadas en una reparación específica
 
@@ -220,8 +205,6 @@ WHERE
 -- Utiliza las tabla precio para el precio del proveedor de la pieza, reparacion_piezas para la cantidad y el total seria la multiplicacion de las dos
 ```
 
-
-
 9. Obtener el inventario de piezas que necesitan ser reabastecidas (cantidad
    menor que un umbral)
 
@@ -246,8 +229,6 @@ WHERE
 2 rows in set (0.00 sec)
 -- se devuelve el nombre y la cantidad de la pieza en inventario que esta por debajo del umbral que seria 151 unidades
 ```
-
-
 
 10. Obtener la lista de servicios más solicitados en un período específico
 
@@ -279,8 +260,6 @@ LIMIT 3;
 -- Se buscan los servicios que se hayan pedido cita entre el 2023-06-01 y 2023-06-05 y se hace el conteo de cada uno
 ```
 
-
-
 11. Obtener el costo total de reparaciones para cada cliente en un período
     específico
 
@@ -289,7 +268,7 @@ SELECT
 	cl.id AS id_cliente,
 	CONCAT(cl.nombre, " ", cl.apellido) AS  nombre_cliente,
 	SUM(re.costo_total) AS total_reparaciones
-FROM	
+FROM
 	cliente cl
 INNER JOIN
 	vehiculo ve ON cl.id = ve.cliente_id
@@ -312,8 +291,6 @@ GROUP BY
 -- Suma el coste total de reparaciones de las entre las fechas 2023-01-01 y  2023-06-05  para cada cliente
 ```
 
-
-
 12. Listar los empleados con mayor cantidad de reparaciones realizadas en un
     período específico
 
@@ -321,7 +298,7 @@ GROUP BY
 SELECT
 	CONCAT(em.nombre," ", em.apellido) AS nombre_empleado,
 	COUNT(re.empleado_id) AS total_de_reparaciones
-	
+
 FROM
 	reparacion re
 INNER JOIN
@@ -344,12 +321,12 @@ LIMIT 3;
 -- Suma el total de reparaciones  de cada empleado entre el periode de 2023-01-10 y 2023-04-25 mostrandolo de manera descendente y solo los tres mejores
 ```
 
-
-
 13. Obtener las piezas más utilizadas en reparaciones durante un período
     específico
 
 ```mysql
+
+
 SELECT
 	repi.pieza_id,
 	pi.nombre AS nombre_pieza,
@@ -379,8 +356,6 @@ LIMIT 3;
 
 ```
 
-
-
 14. Calcular el promedio de costo de reparaciones por vehículo
 
 ```mysql
@@ -408,8 +383,6 @@ ORDER BY
 5 rows in set (0.00 sec)
 -- se unen las  tablas vehiculo y reparacion, agrupandolas por la id del vehiculo para poder calcular el costo promedio y ordenarlas respecto a este de manera descendente
 ```
-
-
 
 15. Obtener el inventario de piezas por proveedor
 
@@ -445,8 +418,6 @@ ORDER BY
 
 ```
 
-
-
 16. Listar los clientes que no han realizado reparaciones en el último año
 
 ```mysql
@@ -474,8 +445,6 @@ HAVING
 -- Se unen las tablas repara
 ```
 
-
-
 17. Obtener las ganancias totales del taller en un período específico
 
 ```mysql
@@ -494,15 +463,13 @@ WHERE
 -- Se sacan las ganancias totales de lo facturado en el año 2023
 ```
 
-
-
 18. Listar los empleados y el total de horas trabajadas en reparaciones en un
     período específico (asumiendo que se registra la duración de cada reparación)
 
 ```mysql
 SELECT
 	CONCAT(em.nombre," ",em.apellido) AS nombre_empleado,
-	COUNT(em.id)*4 AS total_horas_reparacion
+	SUM(re.duracion_horas) AS total_horas_reparacion
 FROM
 	empleado em
 LEFT JOIN
@@ -516,17 +483,15 @@ ORDER BY
 +-----------------+------------------------+
 | nombre_empleado | total_horas_reparacion |
 +-----------------+------------------------+
-| Pedro Sánchez   |                      8 |
+| Pedro Sánchez   |                     13 |
+| Andrés García   |                      9 |
+| José López      |                      7 |
 | Laura Ramírez   |                      4 |
-| José López      |                      4 |
-| Claudia Torres  |                      4 |
-| Andrés García   |                      4 |
+| Claudia Torres  |                      3 |
 +-----------------+------------------------+
 5 rows in set (0.00 sec)
--- Al no tener duracion exacta de las reparaciones se asumio que cada una duraba 4 horas y se muestra el tiempo trabajado en el año 2023 ordenados de manera descendiente por las horas trabajadas en las reparacion
+-- se muestra el tiempo trabajado en el año 2023 ordenados de manera descendiente por las horas trabajadas en las reparacion
 ```
-
-
 
 19. Obtener el listado de servicios prestados por cada empleado en un período
     específico
@@ -590,7 +555,7 @@ ORDER BY
    ORDER BY
    	total_gastado DESC
    LIMIT 1)AS sub;
-   
+
    +------------+----------------+---------------+
    | id_cliente | nombre_cliente | total_gastado |
    +------------+----------------+---------------+
@@ -599,10 +564,7 @@ ORDER BY
    1 row in set (0.00 sec)
    -- Se hace una subconsulta en la cual se usa la union de las tablas reparacion,vehiculo y cliente para sumar el total de gasto en reparaciones de cada cliente en el año 2024 ordenado de mayor a menor para simplemente tener que mostrar el primero.
    ```
-
-   
-
-1. Obtener la pieza más utilizada en reparaciones durante el último mes
+2. Obtener la pieza más utilizada en reparaciones durante el último mes
 
    ```mysql
    SELECT
@@ -625,7 +587,7 @@ ORDER BY
    ORDER BY
    	cantidad_pieza DESC
    LIMIT 1) AS sub;
-   
+
    +--------------------+----------------+
    | nombre_pieza       | cantidad_pieza |
    +--------------------+----------------+
@@ -634,10 +596,7 @@ ORDER BY
    1 row in set (0.00 sec)
    -- se hace una subconsulta en la cual se unen las tablas reparacion, reparacion_piezas y piezas en una union para poder tener la cantidad de piezas usadas en el ultimo mes y muestra solo la que mas se uso.
    ```
-
-   
-
-1. Obtener los proveedores que suministran las piezas más caras
+3. Obtener los proveedores que suministran las piezas más caras
 
    ```mysql
    SELECT
@@ -664,10 +623,7 @@ ORDER BY
    1 row in set (0.00 sec)
    -- Se hace una subconsulta donde se ordena por el precio del proveedor, pero solo devuelve el proveedor con el precio mas alto
    ```
-
-   
-
-1. Listar las reparaciones que no utilizaron piezas especificas durante el ultimo año.
+4. Listar las reparaciones que no utilizaron piezas especificas durante el ultimo año.
 
    ```mysql
    SELECT
@@ -685,21 +641,18 @@ ORDER BY
    		repi.pieza_id = 1 
    	)
    	AND YEAR(re.fecha) = 2024;
-   
+
    +---------------+------------+---------------------------------+
    | id_reparacion | fecha      | descripcion                     |
    +---------------+------------+---------------------------------+
    |             8 | 2024-09-01 | Alineación y revisión de frenos |
    +---------------+------------+---------------------------------+
    1 row in set (0.00 sec)
-   
+
    -- Hace una subconsulta de las reparacion con la pieza con la id  y se busca que la reparacion no este entre esas especificando que solo se tiene en cuente las del 2024
-   
+
    ```
-
-   
-
-1. Obtener las piezas que están en inventario por debajo del 10% del stock inicial
+5. Obtener las piezas que están en inventario por debajo del 10% del stock inicial
 
    ```mysql
    SELECT 
@@ -710,21 +663,17 @@ ORDER BY
    INNER JOIN 
        pieza_inventario piinv ON pi.id = piinv.pieza_id
    INNER JOIN 
-       inventario inv ON piinv.inventario_id = inv.id
-   LEFT JOIN 
-       (SELECT pieza_id, SUM(cantidad) AS total_gastado FROM reparacion_piezas GROUP BY pieza_id) repi 
-       ON pi.id = repi.pieza_id
+       inventario inv ON piinv.inventario_id = inv.id 
    WHERE 
-       (IFNULL(repi.total_gastado, 0) > inv.cantidad * 0.9);
+       (inv.stock_inicial*0.1 > inv.cantidad);
    +----------+------------------+
    | id_pieza | nombre_pieza     |
    +----------+------------------+
    |        1 | Filtro de Aceite |
    +----------+------------------+
    1 row in set (0.00 sec)
-   -- Primero uso la tabla pieza despues utilizo la tabla intermedia pieza_inventario para poder relacionarla con inventario inventario despues hago una subconsulta para que de la tabla reparacion_piezas me de la suma del total_gastado en piezas en reparaciones y  si ese total gastado es mayor al 90% de la cantidad inicial en el inventario seleciono la fila mostrando solo el nombre de la pieza y su id correspondiente
+   -- Primero uso la tabla pieza despues utilizo la tabla intermedia pieza_inventario para poder relacionarla con inventario en elcual si la cantidad actual es menor al 10% de la cantidad inicial seleciono la fila mostrando solo el nombre de la pieza y su id correspondiente
    ```
-
 
 ## Procedimientos Almacenados
 
@@ -738,19 +687,17 @@ ORDER BY
        IN empleado_id INT,
        IN vehiculo_id INT, 
        IN costo_total DECIMAL(10,2),
-       IN descripcion TEXT)
+       IN descripcion TEXT,
+       IN duracion_horas INT)
    BEGIN
-   	INSERT INTO reparacion(fecha,empleado_id,vehiculo_id,costo_total,descripcion) VALUES (fecha,empleado_id,vehiculo_id,costo_total,descripcion) ;
+   	INSERT INTO reparacion(fecha,empleado_id,vehiculo_id,costo_total,descripcion,duracion_horas) VALUES (fecha,empleado_id,vehiculo_id,costo_total,descripcion,duracion_horas) ;
    END $$
    DELIMITER ;
-   CALL insertar_reparacion('2024-01-10', 1, 1, 150.00, 'Cambio de aceite y revisión general');
-   
+   CALL insertar_reparacion('2024-01-10', 1, 1, 150.00, 'Cambio de aceite y revisión general',7);
+
    -- En este procedimiento pedimos todos los datos necesarios para poder insertar una nueva reparacion
    ```
-
-   
-
-1. Crear un procedimiento almacenado para actualizar el inventario de una pieza.
+2. Crear un procedimiento almacenado para actualizar el inventario de una pieza.
 
    ```mysql
    DELIMITER $$
@@ -777,7 +724,7 @@ ORDER BY
       	SELECT mensaje AS "Mensaje";
    END $$
    DELIMITER ;
-   
+
    CALL actualizar_inventario_pieza(1,3);
    +-------------------------------------------------------+
    | Mensaje                                               |
@@ -785,15 +732,12 @@ ORDER BY
    | La id de la pieza: 1 ha sido actualizada exitosamente |
    +-------------------------------------------------------+
    1 row in set (0.01 sec)
-   
+
    Query OK, 0 rows affected (0.02 sec)
    -- Se pide la id de la pieza y la nueva cantidad despues se pasa por la tabla de inventario en la cual se hace una subconsulta con pieza_inventario para saber si esta relacionado con esa pieza y se cambia, de haber algun cambio tendra un mensaje exitoso de lo contrario se dira que no la ha encontrado.
-   
+
    ```
-
-   
-
-1. Crear un procedimiento almacenado para eliminar una cita
+3. Crear un procedimiento almacenado para eliminar una cita
 
    ```mysql
    DELIMITER $$
@@ -802,7 +746,7 @@ ORDER BY
    	IN cita_id INT)
    BEGIN
    	DECLARE mensaje VARCHAR(100);
-   	DELETE FROM cita_servicio  cise WHERE cise.id = cita_id;
+   	DELETE FROM cita_servicio  cise WHERE cise.cita_id = cita_id;
    	DELETE FROM cita ci WHERE ci.id = cita_id;
    	IF(ROW_COUNT() > 0 ) THEN
    		SET mensaje = CONCAT("La cita con la id ",cita_id," ha sido eliminada");
@@ -812,14 +756,20 @@ ORDER BY
    	SELECT mensaje AS "mensaje";
    END $$
    DELIMITER ; 
-   
+
    CALL eliminar_cita(1);
+   +---------------------------------------+
+   | mensaje                               |
+   +---------------------------------------+
+   | La cita con la id 1 ha sido eliminada |
+   +---------------------------------------+
+   1 row in set (0.01 sec)
+
+   Query OK, 0 rows affected (0.02 sec)
+
    -- Creo un procedimiento en el cual pido la id a eliminar de la cita y primero la elimino de la tabla cita_servicio y despues de cita retornando un mensaje exitoso o de no encontrado.
    ```
-
-   
-
-1. Crear un procedimiento almacenado para generar una factura
+4. Crear un procedimiento almacenado para generar una factura
 
    ```mysql
    DELIMITER $$
@@ -844,7 +794,7 @@ ORDER BY
        -- loop para pasar por todas las reparaciones
        WHILE v_pos <= v_length DO
        	SET v_reparacion_id = SUBSTRING_INDEX(SUBSTRING_INDEX(v_reparacion_list, ",", v_pos), ",", -1);
-   
+
        	SELECT costo_total INTO v_precio FROM reparacion re WHERE re.id =  v_reparacion_id;
        -- inserciones de factura_detalle
            INSERT INTO factura_detalle(factura_id,reparacion_id,cantidad,precio) VALUES (@factura_id,v_reparacion_id,1,v_precio);
@@ -857,10 +807,7 @@ ORDER BY
    CALL crear_factura('2024-06-08', 1, '1,2,3');
    -- Se realiza un procedimiento en el cual se pide la fecha de la factura, la id del cliente y las id de las reparaciones a modo de string  para poder generar tanto los detalles de la factura como el costo total con IVA
    ```
-
-   
-
-1. Crear un procedimiento almacenado para obtener el historial de reparaciones
+5. Crear un procedimiento almacenado para obtener el historial de reparaciones
    de un vehículo
 
    ```mysql
@@ -891,14 +838,11 @@ ORDER BY
    |             9 | 2024-01-10 |           1 |      150.00 | Cambio de aceite y revisión general   |
    +---------------+------------+-------------+-------------+---------------------------------------+
    4 rows in set (0.00 sec)
-   
+
    Query OK, 0 rows affected (0.02 sec)
    -- Se crea un procedimiento en el cual se pide la id de un vehiculo, la cual se buca en la tabla reparaciones y  todas las que tengan relacion con esa id se muestran
    ```
-
-   
-
-1. Crear un procedimiento almacenado para calcular el costo total de
+6. Crear un procedimiento almacenado para calcular el costo total de
    reparaciones de un cliente en un período
 
    ```mysql
@@ -930,14 +874,11 @@ ORDER BY
    |                   240.00 |
    +--------------------------+
    1 row in set (0.00 sec)
-   
+
    Query OK, 0 rows affected (0.01 sec)
    -- Se crea un procedimiento en el cual se pide la id del cliente,  el rango minimo y maximo de la fecha y dependiendo de eso se busca en  la tabla reparaciones todos los vehiculos que sean del cliente y que esten en el rango establecido para sumar el cossto de todas las reparaciones
    ```
-
-   
-
-1. Crear un procedimiento almacenado para obtener la lista de vehículos que
+7. Crear un procedimiento almacenado para obtener la lista de vehículos que
    requieren mantenimiento basado en el kilometraje.
 
    ```mysql
@@ -960,7 +901,7 @@ ORDER BY
    		kive.kilometraje >=  kilometraje_in;
    END $$
    DELIMITER ;
-   
+
    CALL mantenimiento_por_kilometraje(16000);
    +-------------+--------+--------+-----------------+-------------+
    | id_vehiculo | placa  | modelo | año_fabricacion | kilometraje |
@@ -970,19 +911,16 @@ ORDER BY
    |           5 | MNO345 | Altima |            2017 |       45000 |
    +-------------+--------+--------+-----------------+-------------+
    3 rows in set (0.00 sec)
-   
+
    Query OK, 0 rows affected (0.01 sec)
    -- Se crea un procedimiento en elcual  el empleado puede poner el
    -- kilometraje y mirar todos los vehiculos que sean mayor o igual a ese umbral
    ```
-
-   
-
-1. Crear un procedimiento almacenado para insertar una nueva orden de compra
+8. Crear un procedimiento almacenado para insertar una nueva orden de compra
 
    ```mysql
    DELIMITER $$
-   
+
    DROP PROCEDURE IF EXISTS crear_orden_compra;
    CREATE PROCEDURE crear_orden_compra(
        IN p_fecha DATE,
@@ -1001,50 +939,47 @@ ORDER BY
        DECLARE v_length_cantidades INT;
        DECLARE v_piezas_list VARCHAR(255);
        DECLARE v_cantidades_list VARCHAR(255);
-   
+
        -- Creación de la orden de compra
        INSERT INTO orden_compra(fecha, proveedor_id, empleado_id, total) 
        VALUES(p_fecha, p_proveedor_id, p_empleado_id, v_total);
-       
+
        SET @orden_compra_id = LAST_INSERT_ID();
-       
+
        SET v_length_piezas = LENGTH(p_piezas) - LENGTH(REPLACE(p_piezas, ",", "")) + 1;
        SET v_length_cantidades = LENGTH(p_cantidades) - LENGTH(REPLACE(p_cantidades, ",", "")) + 1;
-       
+
        IF v_length_piezas = v_length_cantidades THEN
            -- Loop para pasar por todas las piezas y cantidades
            WHILE v_pos <= v_length_piezas DO
                SET v_pieza_id = CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(p_piezas, ",", v_pos), ",", -1) AS UNSIGNED);
                SET v_cantidad = CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(p_cantidades, ",", v_pos), ",", -1) AS UNSIGNED);
-               
+
                SELECT precio_venta INTO v_precio FROM precio 
                WHERE proveedor_id = p_proveedor_id AND pieza_id = v_pieza_id;
                -- Inserts para orden_detalle
                INSERT INTO orden_detalle(orden_id, pieza_id, cantidad, precio) 
                VALUES (@orden_compra_id, v_pieza_id, v_cantidad, v_precio);
-               
+
                SET v_total = v_total + (v_precio * v_cantidad);
                SET v_pos = v_pos + 1;
            END WHILE;
-           
+
            -- Actualizar el total de la orden de compra
            UPDATE orden_compra SET total = v_total WHERE id = @orden_compra_id;
        ELSE
            SELECT 'Ha ingresado incorrectamente las piezas o cantidades' AS error;
        END IF;
    END $$
-   
+
    DELIMITER ;
-   
+
    CALL crear_orden_compra('2024-06-08', 3,1, '1,2',"10,20");
    -- Se crea un procedimiento que requiere la insercion de una fecha, una id de empleado y  proveedor, las piezas que va a usar con su respectiva cantidad
    -- si la cadena de piezas es de diferente longitud que la de cantidad dara un error, de resto entrara en un ciclo en el cual pasara por las piezas y cantidades insertandolas en orden_detalle
    -- mientras calcula el total de la orden para poder completar orden_compra
    ```
-
-   
-
-1. Crear un procedimiento almacenado para actualizar los datos de un cliente
+9. Crear un procedimiento almacenado para actualizar los datos de un cliente
 
    ```mysql
    DELIMITER $$
@@ -1071,7 +1006,7 @@ ORDER BY
    	SELECT mensaje AS "mensaje";
    END $$
    DELIMITER ;
-   
+
    CALL actualizar_cliente(1,'Juan', 'Pérez', 'juan.perez1@example.com');
    +---------------------------------------------------------+
    | mensaje                                                 |
@@ -1079,61 +1014,56 @@ ORDER BY
    | El cliente con la id 1 ha sido actualizado exitosamente |
    +---------------------------------------------------------+
    1 row in set (0.01 sec)
-   
+
    Query OK, 0 rows affected (0.01 sec)
    -- En este procedimiento se le pide todos los atributos del cliente en el  cual puede tener un mensaje exitoso si se encontro la id del cliente
    -- O un mensaje de que no ha sido encontrado.
    ```
+10. Crear un procedimiento almacenado para obtener los servicios más solicitados
+    en un período
 
-   
+    ```mysql
+    DELIMITER $$
+    DROP PROCEDURE IF EXISTS servicios_mas_solicitados;
+    CREATE PROCEDURE servicios_mas_solicitados(
+    	IN fecha_minima DATETIME,
+    	IN fecha_maxima DATETIME)
+    BEGIN
+    	SELECT
+    		se.id AS id_servicio,
+    		se.nombre,
+    		se.descripcion,
+    		se.costo,
+    		COUNT(ci.id) AS pedidos_totales
+    	FROM
+    		cita ci
+    	INNER JOIN
+    		cita_servicio cise ON cise.cita_id = ci.id
+    	INNER JOIN
+    		servicio se ON cise.servicio_id = se.id
+    	WHERE
+    		ci.fecha_hora >= fecha_minima
+    		AND
+    		ci.fecha_hora <= fecha_maxima
+    	GROUP BY
+    		se.id
+    	ORDER BY
+    		pedidos_totales DESC
+    	LIMIT 3;
+    END $$
+    DELIMITER ; 
 
-1. Crear un procedimiento almacenado para obtener los servicios más solicitados
-   en un período
+    CALL servicios_mas_solicitados('2023-06-01 09:00:00','2024-01-15 10:00:00');
+    +-------------+------------------+--------------------------------+--------+-----------------+
+    | id_servicio | nombre           | descripcion                    | costo  | pedidos_totales |
+    +-------------+------------------+--------------------------------+--------+-----------------+
+    |           1 | Cambio de Aceite | Cambio de aceite y filtro      |  50.00 |               3 |
+    |           3 | Balanceo         | Balanceo de neumáticos         |  30.00 |               2 |
+    |           4 | Revisión General | Revisión completa del vehículo | 100.00 |               1 |
+    +-------------+------------------+--------------------------------+--------+-----------------+
+    3 rows in set (0.01 sec)
 
-   ```mysql
-   DELIMITER $$
-   DROP PROCEDURE IF EXISTS servicios_mas_solicitados;
-   CREATE PROCEDURE servicios_mas_solicitados(
-   	IN fecha_minima DATETIME,
-   	IN fecha_maxima DATETIME)
-   BEGIN
-   	SELECT
-   		se.id AS id_servicio,
-   		se.nombre,
-   		se.descripcion,
-   		se.costo,
-   		COUNT(ci.id) AS pedidos_totales
-   	FROM
-   		cita ci
-   	INNER JOIN
-   		cita_servicio cise ON cise.cita_id = ci.id
-   	INNER JOIN
-   		servicio se ON cise.servicio_id = se.id
-   	WHERE
-   		ci.fecha_hora >= fecha_minima
-   		AND
-   		ci.fecha_hora <= fecha_maxima
-   	GROUP BY
-   		se.id
-   	ORDER BY
-   		pedidos_totales DESC
-   	LIMIT 3;
-   END $$
-   DELIMITER ; 
-   
-   CALL servicios_mas_solicitados('2023-06-01 09:00:00','2024-01-15 10:00:00');
-   +-------------+------------------+--------------------------------+--------+-----------------+
-   | id_servicio | nombre           | descripcion                    | costo  | pedidos_totales |
-   +-------------+------------------+--------------------------------+--------+-----------------+
-   |           1 | Cambio de Aceite | Cambio de aceite y filtro      |  50.00 |               3 |
-   |           3 | Balanceo         | Balanceo de neumáticos         |  30.00 |               2 |
-   |           4 | Revisión General | Revisión completa del vehículo | 100.00 |               1 |
-   +-------------+------------------+--------------------------------+--------+-----------------+
-   3 rows in set (0.01 sec)
-   
-   Query OK, 0 rows affected (0.03 sec)
-   -- El procedimiento requiere de un rango de fecha en el cual se debe poner la hora y despues se encargara  de pasara por todas las citas de un 
-   -- servicio que se haya hecho para verificar que este dentro del rango  y mostrando tanto los datos  del servicio como las veces que se pidieron.
-   ```
-
-   
+    Query OK, 0 rows affected (0.03 sec)
+    -- El procedimiento requiere de un rango de fecha en el cual se debe poner la hora y despues se encargara  de pasara por todas las citas de un 
+    -- servicio que se haya hecho para verificar que este dentro del rango  y mostrando tanto los datos  del servicio como las veces que se pidieron.
+    ```

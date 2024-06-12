@@ -131,6 +131,7 @@ CREATE TABLE reparacion (
     vehiculo_id INT NOT NULL,
     costo_total DECIMAL(10, 2) NOT NULL,
     descripcion TEXT NULL,
+    duracion_horas INT NOT NULL,
     CONSTRAINT PK_Reparacion_Id PRIMARY KEY (id),
     CONSTRAINT FK_Empleado_Reparacion_Id FOREIGN KEY (empleado_id) REFERENCES empleado(id),
     CONSTRAINT FK_Vehiculo_Reparacion_Id FOREIGN KEY (vehiculo_id) REFERENCES vehiculo(id)
@@ -237,6 +238,7 @@ CREATE TABLE inventario (
     id INT AUTO_INCREMENT NOT NULL,
     cantidad INT NOT NULL,
     ubicacion_id INT NOT NULL,
+    stock_inicial INT NOT NULL,
     CONSTRAINT PK_Inventario_Id PRIMARY KEY (id),
     CONSTRAINT FK_Ubicacion_Inventario_Id FOREIGN KEY (ubicacion_id) REFERENCES ubicacion(id)
 );
